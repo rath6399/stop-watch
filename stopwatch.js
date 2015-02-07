@@ -1,13 +1,13 @@
 Stopwatch = function(listener, resolution) {
 	this.startTime = 0;
 	this.stopTime = 0;
-	this.totalElapsed = 0; // * elapsed number of ms in total
+	this.totalElapsed = 0; 
 	this.started = false;
-	this.listener = (listener != undefined ? listener : null); // * function to receive onTick events
-	this.tickResolution = (resolution != undefined ? resolution : 500); // * how long between each tick in milliseconds
+	this.listener = (listener != undefined ? listener : null); 
+	this.tickResolution = (resolution != undefined ? resolution : 500); 
 	this.tickInterval = null;
 
-	// * pretty static vars
+
 	this.onehour = 1000 * 60 * 60;
 	this.onemin  = 1000 * 60;
 	this.onesec  = 1000;
@@ -44,7 +44,7 @@ Stopwatch.prototype.restart = function() {
 	this.start();
 };
 Stopwatch.prototype.getElapsed = function() {
-	// * if watch is stopped, use that date, else use now
+	
 	var elapsed = 0;
 	if (this.started)
 		elapsed = new Date().getTime() - this.startTime;
@@ -70,7 +70,7 @@ Stopwatch.prototype.setElapsed = function(hours, mins, secs) {
 	this.totalElapsed += hours * this.onehour;
 	this.totalElapsed += mins  * this.onemin;
 	this.totalElapsed += secs  * this.onesec;
-	this.totalElapsed = Math.max(this.totalElapsed, 0); // * No negative numbers
+	this.totalElapsed = Math.max(this.totalElapsed, 0); 
 	};
 Stopwatch.prototype.toString = function() {
 	var zpad = function(no, digits) {
@@ -85,7 +85,7 @@ Stopwatch.prototype.toString = function() {
 Stopwatch.prototype.setListener = function(listener) {
 	this.listener = listener;
 };
-// * triggered every <resolution> ms
+
 Stopwatch.prototype.onTick = function() {
 	if (this.listener != null) {
 		this.listener(this);
