@@ -1,0 +1,265 @@
+Titanium.UI.setBackgroundColor('#000');
+
+var homeWindow = Ti.UI.createWindow({
+	Title: 'Home',
+	backgroundColor: '#778282',
+	layout: 'vertical'
+});
+	homeWindow.open();
+var homeTitle = Ti.UI.createLabel({
+	text: 'Function Selection',
+	top: 30,
+	font:{
+		font:'Impact',
+		fontSize:'35sp',
+		fontWeight:'bold'
+	}
+});
+homeWindow.add(homeTitle);
+var userSelectionView = Ti.UI.createView({
+	layout: 'horizontal',
+	top: 40,
+	width: '100%',
+	backgroundcolor: 'black'
+});
+
+var teaSelectionButton = Ti.UI.createButton({
+	title: 'Tea Selection',
+	color:'#474747',
+	width:'33%',
+	textAlign:'Center',
+	font:{
+		fontSize:'20sp',
+		fontWeight:'bold',
+	},
+	backgroundImage:'teacup.png'
+});
+
+var cameraSelectionButton = Ti.UI.createButton({
+	title: 'Camera',
+	color:'#474747',
+	width:'33%',
+	textAlign:'Center',
+	font:{
+		fontSize:'20sp',
+		fontWeight:'bold',
+	},
+	backgroundImage: 'camera.png'
+});
+var mapSelectionButton = Ti.UI.createButton({
+	title: 'Moscow Map',
+	color:'#474747',
+	width:'33%',
+	textAlign:'Center',
+	font:{
+		fontSize:'20sp',
+		fontWeight:'bold',
+	},
+	backgroundImage:'map.png'
+});
+homeWindow.add(userSelectionView);
+	userSelectionView.add(cameraSelectionButton);
+	cameraSelectionButton.addEventListener('click', function(e){
+		camera();
+	});
+	userSelectionView.add(teaSelectionButton);
+	teaSelectionButton.addEventListener('click', function(e){
+		teaSelection();
+	});
+	userSelectionView.add(mapSelectionButton);
+	mapSelectionButton.addEventListener('click', function(e){
+		moscowMap();
+	});
+
+function teaSelection() {
+	var teaWindow = Titanium.UI.createWindow({  
+    	Title: 'Tea Color Selection',
+   		 backgroundColor:'white',
+   	 	layout: 'vertical',
+	});
+	
+	teaWindow.open();
+	var teaLabel = Ti.UI.createLabel({
+		text: 'Tea Selection',
+		top: 15,
+		font: {
+			font: 'Courier',
+			fontSize: '35sp'
+		}
+	});
+	
+	teaWindow.add(teaLabel);
+	var Teacolor = ['#F5F5DC', '#FFE4B5', '#FFe4c4', '#D2B48C', '#C3B091', '#926F5B', '#804000', '#654321', '#3D2B1F'];
+	allRows = [];
+	var theColours = Ti.UI.createTableView({
+		top: '30'
+	});
+
+	for (var i=0; i<Teacolor.length; i++) {
+		theRow = Ti.UI.createTableViewRow({backgroundColor: Teacolor[i],
+			 height: '50', 
+			 TeaColour:Teacolor[i]
+		});
+		allRows.push(theRow);
+	}
+
+	theColours.setData(allRows);
+	teaWindow.add(theColours);
+
+	function getVerdict(colour) {
+		var indicator = colour.charAt(1);
+		var msg;
+		switch(indicator) {
+			case 'F': msg ='Milky'; break;
+			case 'D': msg = 'Nice'; break;
+			case 'C': msg = 'Perfect'; break;
+			case '9': msg = 'A bit strong'; break;
+			case '8': msg = 'Builders tea'; break;
+			case '6': msg = 'Send it back'; break;
+			case '3': msg = 'No milk here'; break;
+		}
+		return msg;
+	}
+
+	function showTeaVerdict(_args){
+		var teaVerdict = Ti.UI.createWindow({layout:'vertical'});
+		teaVerdict.backgroundColor = _args;
+		teaVerdict.msg = getVerdict(_args);
+		var teajudgement = Ti.UI.createLabel({
+			text:teaVerdict.msg, 
+			top:'30%'
+		});
+		var close = Ti.UI.createButton({
+			Title:'Return to selection', 
+			top:'25%'
+		});
+		var newFunction = Ti.UI.createButton({
+			Title:'Close Tea Selection',
+			top: 45
+		});
+		newFunction.addEventListener('click', function(e){
+			teaVerdict.close();
+			teaWindow.close();
+			teaVerdict = null;
+		});
+		close.addEventListener('click', function(e){
+			teaVerdict.close();
+			teaVerdict = null;
+		});
+		
+		teaVerdict.add(teajudgement);
+		teaVerdict.add(close);
+		teaVerdict.add(newFunction);
+		teaVerdict.open();
+	}
+	theColours.addEventListener('click', function(e) {showTeaVerdict(e.source.TeaColour);});
+};
+function camera() {
+	var cameraWindow = Ti.UI.createWindow({
+		Title: 'Camera',
+		backgroundColor:'#A6A69E',
+		layout: 'vertical',
+		backgroundImage:'camera.png'
+	});
+	cameraWindow.open();
+	var cameraView = Ti.UI.createView({
+		height: '10%',
+		width: '10%',
+		top: 10
+		
+	});
+	
+	var cameraButton = Ti.UI.createButton({
+		title: 'Camera'
+	});
+	
+	cameraButton.addEventListener('click', function(e){
+		cameraWindow.open();
+	});
+	
+	var options = Ti.UI.createView({
+		layout: 'vertical',
+		width:'72%',
+		height: '10%',
+		top: 15
+	});
+	
+	var showCamera = Ti.UI.createButton({ 
+		title: 'Start Camera',
+		color:'#C0BFBF',
+		textAlign:'Center',
+		top: 15,
+		font:{
+			fontSize:'35sp',
+			fontWeight:'bold'
+		},
+		backgroundColor:'#587058'
+	});
+	var closeView = Ti.UI.createView({
+		layout: 'vertical',
+		width: '72%',
+		height: '10%',
+		top: 35
+	});
+	var closeButton = Ti.UI.createButton({
+		title: 'Close Camera',
+		color:'#C0BFBF',
+		textAlign:'Center',
+		top: 5,
+		font:{
+			fontSize:'35sp',
+			fontWeight:'bold'
+		},
+		backgroundColor:'#587058'
+	});
+	
+	
+	closeButton.addEventListener('click', function (e){
+		cameraWindow.close();
+	});
+	
+	var thePhoto = Ti.UI.createImageView({
+		height: '30%',
+		width: '30%'
+	});
+
+	options.add(showCamera);
+	options.add(thePhoto);
+	cameraWindow.add(options);
+	cameraWindow.add(closeView);
+	closeView.add(closeButton);
+	function showPhoto(_args) {
+		thePhoto.setImage(_args.media);
+	}
+	showCamera.addEventListener('click', function(e) {
+		Ti.Media.showCamera({
+			animated: true,
+			autoHide: true,
+			saveToPhotoGallery: true,
+			showControls: true,
+			mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO],
+			succes: function(e) {showPhoto(e);},
+			error: function(e) {alert('There was a problem accessing the camera');}
+		});
+	});
+};
+function moscowMap () {
+	var mapmodule = require('ti.map');
+	var moscowMapWindow = Ti.UI.createWindow({
+		backgroundColor: '#5E5E50',
+		layout:'vertical'
+	});
+	var moscowIdaho = mapmodule.createView({
+		mapType: mapmodule.NORMAL_TYPE,
+		region: {
+			latitude: 46.7300,
+			longitude: 117.0000,
+			latitudeDelta:0.01,
+			longitudeDelta:0.01,
+			animate:true,
+			regionFit:true
+		}
+	});
+	moscowMapWindow.open();
+	moscowMapWindow.add(moscowIdaho);
+};
